@@ -1,3 +1,40 @@
 spring:
   application:
-    name: p2p-file-replication
+    name: p2p-node
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+server:
+  port: 5000
+node:
+  storage-dir: ./data/node1
+  peers:
+    - http://localhost:5001
+    - http://localhost:5002
+
+---
+spring:
+  config:
+    activate:
+      on-profile: node2
+server:
+  port: 5001
+node:
+  storage-dir: ./data/node2
+  peers:
+    - http://localhost:5000
+    - http://localhost:5002
+
+---
+spring:
+  config:
+    activate:
+      on-profile: node3
+server:
+  port: 5002
+node:
+  storage-dir: ./data/node3
+  peers:
+    - http://localhost:5000
+    - http://localhost:5001
